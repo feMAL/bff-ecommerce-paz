@@ -1,13 +1,14 @@
 import { Controller, Get, HttpCode, Param, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ProductService } from "../services/product.service";
-import { ProductResponseType } from "../responses/product.response";
+import { ProductFormatedReponseType, ProductResponseType } from "../responses/product.response";
+import { ProductUtils } from "../utils/product.utils";
 
 @ApiTags('Products')
 @Controller('products')
 export class ProductController {
     constructor (
-        private productService: ProductService
+        private readonly productService: ProductService,
     ) {}
 
     @Get()
@@ -16,10 +17,10 @@ export class ProductController {
     @ApiResponse({
         status: 200,
         description: 'Information requested',
-        type: ProductResponseType,
-        isArray: false,
+        type: ProductFormatedReponseType,
+        isArray: true,
     })
-    async getProducts(): Promise<ProductResponseType> {
+    async getProducts(): Promise<ProductFormatedReponseType[]> {
         return await this.productService.getAllProducts();
       }
 
