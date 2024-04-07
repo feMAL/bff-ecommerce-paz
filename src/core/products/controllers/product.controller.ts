@@ -11,7 +11,7 @@ export class ProductController {
         private readonly productService: ProductService,
     ) {}
 
-    @Get()
+    @Get('catalog')
     @ApiOperation({ description: 'Get all products' })
     @HttpCode(200)
     @ApiResponse({
@@ -20,9 +20,22 @@ export class ProductController {
         type: ProductFormatedReponseType,
         isArray: true,
     })
-    async getProducts(): Promise<ProductFormatedReponseType[]> {
+    async getProductsToCatalog(): Promise<ProductFormatedReponseType[]> {
+        return await this.productService.getAllProductsToCatalog();
+    }
+
+    @Get('')
+    @ApiOperation({ description: 'Get all products' })
+    @HttpCode(200)
+    @ApiResponse({
+        status: 200,
+        description: 'Information requested',
+        type: ProductFormatedReponseType,
+        isArray: true,
+    })
+    async getProducts(): Promise<ProductResponseType[]> {
         return await this.productService.getAllProducts();
-      }
+    }
 
     @Get(':productID')
     @ApiOperation({ description: 'Get a products by ID' })

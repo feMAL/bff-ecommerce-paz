@@ -12,12 +12,23 @@ export class ProductService {
         private readonly productUtils: ProductUtils
       ) {}
     
-    async getAllProducts(): Promise<ProductFormatedReponseType[]> {
+    async getAllProductsToCatalog(): Promise<ProductFormatedReponseType[]> {
         try { 
             const { data } = await axios.get<ProductResponseType[]>(
-            `${this.appConfig.services.backend.url}/patterns`
+                `${this.appConfig.services.backend.url}/patterns`
             );
             return this.productUtils.formatProducts(data);
+        } catch (error) {
+            throw new HttpException(error.response.data, error.response.status);
+        }
+    }
+
+    async getAllProducts(): Promise<ProductResponseType[]> {
+        try { 
+            const { data } = await axios.get<ProductResponseType[]>(
+                `${this.appConfig.services.backend.url}/patterns`
+            );
+            return data
         } catch (error) {
             throw new HttpException(error.response.data, error.response.status);
         }

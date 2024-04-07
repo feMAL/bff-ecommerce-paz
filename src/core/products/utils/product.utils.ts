@@ -53,7 +53,9 @@ export class ProductUtils {
             })
         })
 
-        return result;
+        return result.filter((category) => (
+            category.products.length !== 0 ? true : false
+        ));
     }
 
 }
