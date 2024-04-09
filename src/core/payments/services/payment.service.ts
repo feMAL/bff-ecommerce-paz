@@ -2,18 +2,18 @@ import { HttpException, Inject } from "@nestjs/common";
 import { ConfigType } from "@nestjs/config";
 import axios from "axios";
 import { config } from "../../../config/external-servers";
+import { CreatePaymentOrderDTO } from "../dtos/payment.dto";
 
-export class CheckoutService {
+export class PaymentService {
     
     constructor(
         @Inject(config.KEY) private readonly appConfig: ConfigType<typeof config>,
     ){}
 
-    async checkoutOrder(id: string, body: any): Promise<any> {
+    async checkoutOrder( body: CreatePaymentOrderDTO): Promise<any> {
         try { 
             const { data } = await axios.post(
-                `${this.appConfig.services.backend.url}/checkout/${id}`,
-                body
+                `${this.appConfig.services.backend.url}/checkout`,body
             );
             return data
         } catch (error) {
